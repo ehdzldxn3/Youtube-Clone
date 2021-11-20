@@ -3,12 +3,17 @@ import LandingPage from './components/views/LandingPage/LandingPage'
 import LoginPage from './components/views/LoginPage/LoginPage'
 import RegisterPage from './components/views/RegisterPage/RegisterPage'
 import Navbar from './components/views/NavBar/Navbar'
+import VideoUploadPage from "./components/views/VideoUploadPage/VideoUploadPage";
 import Auth from './hoc/auth'
 
 
+
+//asdferahsth
 function App() {
   return (
+    
     <Router>
+      {/* <Navbar/> */}
       <Switch>
 
         {/* 메인페이지 */}
@@ -19,6 +24,10 @@ function App() {
 
         {/*  */}
         <Route path='/register' component={Auth(RegisterPage, false) } />
+
+        <Route path='/register' component={RegisterPage} />
+
+        
 
       </Switch>
     </Router>
