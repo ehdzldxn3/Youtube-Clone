@@ -8,11 +8,14 @@ import Auth from './hoc/auth'
 
 
 
-//asdferahsth
+// null 아무나
+// false 로그인 안 한사람
+// true 로그인 한사람
 function App() {
   return (
     
     <Router>
+      <Navbar/>
       {/* <Navbar/> */}
       <Switch>
 
@@ -22,9 +25,11 @@ function App() {
         {/* 로그인페이지 */}
         <Route path='/login' component={Auth(LoginPage, false)} />
 
-        {/*  */}
+        {/* 회원가입 */}
         <Route path='/register' component={Auth(RegisterPage, false) } />
 
+        {/* 비디오업로드 */}
+        <Route path='/videoUploadPage' component={Auth(VideoUploadPage, true) } />
         
 
         
