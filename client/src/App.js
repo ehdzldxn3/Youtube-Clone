@@ -25,7 +25,7 @@ function App() {
         {/*  */}
         <Route path='/register' component={Auth(RegisterPage, false) } />
 
-        <Route path='/register' component={RegisterPage} />
+        
 
         
 

@@ -1,23 +1,11 @@
 import React, {useEffect, } from 'react'
-<<<<<<< HEAD
 import { Button, } from '@material-ui/core';
 
 
-=======
+
 import axios from 'axios'
 import { withRouter } from 'react-router-dom'
->>>>>>> kang
 
-
-<<<<<<< HEAD
-    
-
-    return (
-        <div>
-            
-
-            LandingPage
-=======
  function LandingPage(props) {
 
     const onClickHandler = () => {
@@ -42,9 +30,6 @@ import { withRouter } from 'react-router-dom'
             <button onClick={onClickHandler}>
                 로그아웃
             </button>
-
-
->>>>>>> kang
         </div>
         
     )
