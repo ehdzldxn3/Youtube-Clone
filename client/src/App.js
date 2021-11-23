@@ -5,10 +5,13 @@ import RegisterPage from './components/views/RegisterPage/RegisterPage'
 import Navbar from './components/views/NavBar/Navbar'
 import Auth from './hoc/auth'
 
-
 function App() {
+  //nuull 아무나
+  //false 로그인 안한 사람
+  //true 로그인 한사람만
   return (
     <Router>
+      <Navbar/>
       <Switch>
 
         {/* 메인페이지 */}
