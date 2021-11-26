@@ -15,7 +15,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
                 //option true 로그인상태
                 //option false 로그인하지 않은 상태
                 //adminRoute true
-
+                
                 //로그인 하지 않은 상태 
                 if (!res.payload.isAuth) {
                     if (option) {
