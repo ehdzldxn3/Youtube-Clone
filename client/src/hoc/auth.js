@@ -7,9 +7,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
     function AuthenticationCheck(props) {
 
         const dispatch = useDispatch();
-
         useEffect(() => {
-
             dispatch(auth())
             .then(res => {
                 //option true 로그인상태

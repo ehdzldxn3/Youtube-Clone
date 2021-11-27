@@ -1,5 +1,5 @@
 import React, {Component, useEffect, useState, } from 'react'
-import { useStyles, } from '../Styles/NavbarStyles'
+import { useStyles, SearchTAG, } from '../Styles/NavbarStyles'
 import { AppBar, Toolbar, IconButton, Typography, Box, Badge, Button } from "@material-ui/core";
 import { Menu, Search, } from '@mui/icons-material';
 import { styled, alpha } from '@mui/material/styles';
@@ -8,24 +8,6 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 
 function Navbar() {
-
-    //CSS
-    const classes = useStyles();
-    
-    const auth = false
-    //스토어에서 user 로그인 여부 가져옴
-    const asdf = useSelector(state => state.user.userData.isAuth)
-
-    console.log(asdf)
- 
-    
-    // const auth = false
-    console.log('네브바렌더링')
-    
-
-    const menuClick = () => {
-        console.log("메인화면으로 넘어가게 만들기")
-    }
 
     const SearchTAG = styled('div')(({ theme }) => ({
         position: 'relative',
@@ -69,14 +51,31 @@ function Navbar() {
       }));
 
 
+    //CSS
+    const classes = useStyles();
+    
+    //true 로그인 한 상태
+    //false 로그인 하지않은 상태
+    //화면 체크용
+    //리덕스 스토어에 데이터 있는지 체크
+    const check = useSelector(state => state.user.userData)    
+    const auth = check === undefined ? false : check.isAuth
+    
+
+    const youtubeClick = () => {
+        console.log("메인화면으로 넘어가게 만들기")
+    }
+
+    
+    
+    
+
+
     return (
-        <AppBar position="fixed" color="primary" className={classes.appbar}>
-            <Toolbar variant="dense">
-                <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} onClick={menuClick}>
-                    <Menu/>
-                </IconButton>
+        <AppBar className={classes.appbar}>
+            <Toolbar className={classes.toolbar}>
                 <Typography variant="h6" color="inherit" component="div">
-                Youtube
+                <div className={classes.youtube} onClick={youtubeClick}>Youtube</div>
                 </Typography>
                 <SearchTAG>
                     <SearchIconWrapper>
@@ -89,13 +88,17 @@ function Navbar() {
                 </SearchTAG>
                 <Box sx={{ flexGrow: 1 }}></Box>
                 <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                {auth && (
-                    <div>
-                        <Button color="inherit">로그인</Button>
-                        <Button color="inherit">로그아웃</Button>
-                        <Button color="inherit">회원가입</Button>
-                    </div>
-                )}
+                <div> 
+                  {auth === false ? 
+                  <div>
+                    <Button color="inherit">로그인</Button>
+                    <Button color="inherit">회원가입</Button>
+                  </div>
+                  : 
+                  <div>
+                    <Button color="inherit">로그인</Button>
+                  </div>}
+                </div>
                 </Box>
             </Toolbar>
         </AppBar>
