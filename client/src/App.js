@@ -6,13 +6,17 @@ import Navbar from './components/views/NavBar/Navbar'
 import Auth from './hoc/auth'
 import VideoUploadPage from './components/views/VideoUploadPage/VideoUploadPage'
 
+import { ThemeProvider } from "@material-ui/core/styles";
+import { unstable_createMuiStrictModeTheme } from '@material-ui/core/styles';
+const theme = unstable_createMuiStrictModeTheme();
+
 function App() {
 
   //nuull 아무나
   //false 로그인 안한 사람
   //true 로그인 한사람만
   return (
-    
+    <ThemeProvider theme = {theme}>
     <Router>
         <Navbar/>    
         <div style={{ paddingTop: '69px'}}>
@@ -28,6 +32,7 @@ function App() {
         </Switch>
         </div>
     </Router>
+    </ThemeProvider>
     
   );
 }
