@@ -6,12 +6,30 @@ export const useStyles = makeStyles({
         position: 'fixed',
         color: 'primary',
     },
-    youtube: {
-        cursor:'pointer',
-    },
+
     toolbar: {
         variant:'dense'
-    }
+    },
+    typography: {
+        variant: 'h6',
+        color: 'inherit',
+        component: 'div',
+        cursor:'pointer',
+        fontSize: '2rem'
+    },
+    search: {
+        color: 'inherit',
+        position: 'relative',
+        left: '20%',
+    },
+    link: {
+        color: '#FFF',
+    },
+    upload: {
+        color: 'inherit',
+    },
+    
+
     
 });
 

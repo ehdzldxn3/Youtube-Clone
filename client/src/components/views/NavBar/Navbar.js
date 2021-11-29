@@ -1,70 +1,75 @@
 import React, {Component, useEffect, useState, } from 'react'
-import { useStyles, SearchTAG, } from '../Styles/NavbarStyles'
+import { useStyles, } from '../Styles/NavbarStyles'
 import { AppBar, Toolbar, IconButton, Typography, Box, Badge, Button } from "@material-ui/core";
-import { Menu, Search, } from '@mui/icons-material';
+import { Upload, Search, } from '@mui/icons-material';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+
 
 
 function Navbar() {
 
-    const SearchTAG = styled('div')(({ theme }) => ({
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: alpha(theme.palette.common.white, 0.15),
-        '&:hover': {
-          backgroundColor: alpha(theme.palette.common.white, 0.25),
-        },
-        marginLeft: 0,
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-          marginLeft: theme.spacing(1),
-          width: 'auto',
-        },
-      }));
 
-      const SearchIconWrapper = styled('div')(({ theme }) => ({
-        padding: theme.spacing(0, 2),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }));    
-      
-      const StyledInputBase = styled(InputBase)(({ theme }) => ({
-        color: 'inherit',
-        '& .MuiInputBase-input': {
-          padding: theme.spacing(1, 1, 1, 0),
-          paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-          transition: theme.transitions.create('width'),
-          width: '100%',
-          [theme.breakpoints.up('sm')]: {
-            width: '50ch',
-            '&:focus': {
-                width: '100ch',
-              },
-          },
-        },
-      }));
+  //서치태그
+  const SearchTAG = styled('div')(({ theme }) => ({
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 0,
+    width: '100%',
+    left: '20%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
+    },
+  }));
+
+  //검색 입력칸
+  const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+      padding: theme.spacing(1, 1, 1, 0),
+      paddingLeft: `calc(1em + ${theme.spacing()})`,
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
+        width: '50ch',
+      },
+    },
+  }));
 
 
-    //CSS
-    const classes = useStyles();
-    
-    //true 로그인 한 상태
-    //false 로그인 하지않은 상태
-    //화면 체크용
-    //리덕스 스토어에 데이터 있는지 체크
-    const check = useSelector(state => state.user.userData)    
-    const auth = check === undefined ? false : check.isAuth
-    
+  //CSS
+  const classes = useStyles();
 
-    const youtubeClick = () => {
-        console.log("메인화면으로 넘어가게 만들기")
-    }
+  //true 로그인 한 상태
+  //false 로그인 하지않은 상태
+  //화면 체크용
+  //리덕스 스토어에 데이터 있는지 체크
+  const check = useSelector(state => state.user.userData)
+  console.log('check : ', check)
+  const auth = check === undefined ? false : check.isAuth
+  console.log('auth : ', auth)
+
+  const test = check === undefined ? 'check undefined' : check.isAuth
+  console.log('test : ', test)
+
+
+  //로그아웃
+  const logout = () => {
+    axios.get('/api/user/logout')
+      .then(response => {
+        if (!response.data.success) {
+          alert('로그아웃 실패')
+        }
+      })
+  }
 
     
     
@@ -72,36 +77,42 @@ function Navbar() {
 
 
     return (
-        <AppBar className={classes.appbar}>
-            <Toolbar className={classes.toolbar}>
-                <Typography variant="h6" color="inherit" component="div">
-                <div className={classes.youtube} onClick={youtubeClick}>Youtube</div>
-                </Typography>
-                <SearchTAG>
-                    <SearchIconWrapper>
-                        <Search/>
-                    </SearchIconWrapper>
-                    <StyledInputBase
-                        placeholder="Search…"
-                        inputProps={{ 'aria-label': 'search' }}
-                    />
-                </SearchTAG>
-                <Box sx={{ flexGrow: 1 }}></Box>
-                <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                <div> 
-                  {auth === false ? 
-                  <div>
-                    <Button color="inherit">로그인</Button>
-                    <Button color="inherit">회원가입</Button>
-                  </div>
-                  : 
-                  <div>
-                    <Button color="inherit">로그인</Button>
-                  </div>}
+      <AppBar className={classes.appbar}>
+        <Toolbar className={classes.toolbar}>
+          <Typography className={classes.typography}>
+            <Link to='/' className={classes.link}>
+              Youtube
+            </Link>
+          </Typography>
+
+          <SearchTAG>
+            <StyledInputBase
+              placeholder="검색"
+            />
+          </SearchTAG>
+          <IconButton className={classes.search}>
+            <Search />
+          </IconButton>
+
+          <Box sx={{ flexGrow: 1 }}></Box>
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <div>
+              {auth === false ?
+                <div>
+                    <Button color="inherit" href='/login'>로그인</Button>
+                    <Button color="inherit" href='/register'>회원가입</Button>
                 </div>
-                </Box>
-            </Toolbar>
-        </AppBar>
+                :
+                <div>
+                  <IconButton color='inherit'  href='/video/upload'>
+                    <Upload size='large' />
+                  </IconButton>
+                  <Button color="inherit" href='/' onClick={logout}>로그아웃</Button>
+                </div>}
+            </div>
+          </Box>
+        </Toolbar>
+      </AppBar>
 
     )
 }
