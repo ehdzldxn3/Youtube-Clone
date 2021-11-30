@@ -1,8 +1,10 @@
 import { Title } from '@mui/icons-material'
 import React, {useState, } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Container, Typography, TextField, Box, Select, MenuItem, InputLabel, FormControl, } from "@material-ui/core";
+import { Container, Typography, TextField, Box, Select, MenuItem, InputLabel, FormControl, Button, } from "@material-ui/core";
 import { useStyles, } from '../Styles/VideoUploadStyles'
+import Dropzone from 'react-dropzone'
+import { PlusOneRounded,  } from '@mui/icons-material';
 
 
 
@@ -37,14 +39,35 @@ function VideoUploadPage(props) {
         setCatogory(e.target.value)
     }
 
+    const videoOnSubmit = (e) => {
+        //onSubmit 새로고침 막는 이벤트
+        e.preventDefault();
+        console.log(title)
+        console.log(description)
+        console.log(setting)
+        console.log(catogory)
+    }
+
     return (
-        <div>
-            <Container fixed>
-            <Typography align='center' component='div' variant="h3">Video Upload</Typography>
-                <Box>
-                    <div style={{ display:'flex', justifyContent:'space-between'}}>
+        <div style={{}}>
+            <Container fixed style={{ verticalAlign:'middle'}}>
+            <Typography align='center' component='div' variant="h3" color='primary'>Video Upload</Typography>
+                <form onSubmit={videoOnSubmit}>
+                    <div style={{ display:'flex', justifyContent:'space-between', paddingTop:'2vh'}}>
                         {/* 드랍존 */}
-                        
+                        <Dropzone
+                            onDrop
+                            multiple
+                            maxSize>
+                                {({getRootProps, getInputProps}) => (
+                                    <div style={{ width: '50vh', height:'30vh', border:'1px solid lightgray', display:'flex',
+                                    alignItems:'center', justifyContent:'center'}} {...getRootProps}>
+                                        <input {...getInputProps()}/>
+                                        <PlusOneRounded sx={{ fontSize: 40 }} />
+                                    </div>
+
+                                )}
+                        </Dropzone>
                         {/* 썸네일 */}
                         <div>
                             <img src alt/>
@@ -109,7 +132,21 @@ function VideoUploadPage(props) {
                             <MenuItem value={4}>Sports</MenuItem>
                         </Select>
                     </FormControl>
-                </Box>
+                    <br/>
+                    <br/>
+                    <Box align='center' style={{paddingTop:'2vh'}}>
+                        <Button 
+                            variant="contained"
+                            color='primary'
+                            style={{
+                                width: '25vh', height: '5vh', fontSize: '5vh',
+                            }}
+                            type='onSubmit'
+                            >
+                            S A V E
+                        </Button>
+                    </Box>
+                </form>
             </Container>
         </div>
     )

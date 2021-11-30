@@ -5,6 +5,9 @@ export const useStyles = makeStyles({
         width: '60vh',
 
     },
+    button: {
+        width: '60vh',
+    }
 });
 
 

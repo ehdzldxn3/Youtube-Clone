@@ -7,8 +7,6 @@ import { AccessAlarm, ThreeDRotation,  } from '@mui/icons-material';
 
  function LandingPage(props) {
 
-
-
     return (
         <div style={{
             display: 'flex', justifyContent: 'center', alignItems: 'center',
