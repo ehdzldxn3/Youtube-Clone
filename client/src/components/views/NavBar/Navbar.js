@@ -53,12 +53,11 @@ function Navbar() {
   //화면 체크용
   //리덕스 스토어에 데이터 있는지 체크
   const check = useSelector(state => state.user.userData)
-  console.log('check : ', check)
   const auth = check === undefined ? false : check.isAuth
-  console.log('auth : ', auth)
 
-  const test = check === undefined ? 'check undefined' : check.isAuth
-  console.log('test : ', test)
+
+  
+
 
 
   //로그아웃

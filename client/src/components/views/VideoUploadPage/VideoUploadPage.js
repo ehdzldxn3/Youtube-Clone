@@ -1,10 +1,10 @@
-import { Title } from '@mui/icons-material'
-import React, {useState, } from 'react'
+import React, {useState, useCallback, } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Container, Typography, TextField, Box, Select, MenuItem, InputLabel, FormControl, Button, } from "@material-ui/core";
 import { useStyles, } from '../Styles/VideoUploadStyles'
 import Dropzone from 'react-dropzone'
-import { PlusOneRounded,  } from '@mui/icons-material';
+import { AddPhotoAlternate, AddAPhoto  } from '@mui/icons-material';
+import axios from "axios";
 
 
 
@@ -24,29 +24,42 @@ function VideoUploadPage(props) {
     const classes = useStyles();
 
     const titleChange = (e) => {    //제목 체인지 이벤트
-        setTitle(e.target.value)
+        setTitle(e.currentTaget.value)
     }
 
     const descriptionChange = (e) => {  //설명 체인지 이벤트
-        setDescription(e.target.value)
+        setDescription(e.currentTaget.value)
     }
 
     const settingChange = (e) => {  //보안 체인지 이벤트
-        setSetting(e.target.value)
+        setSetting(e.currentTaget.value)
     }
 
     const catogoryChange = (e) => {
-        setCatogory(e.target.value)
+        setCatogory(e.currentTaget.value)
     }
 
     const videoOnSubmit = (e) => {
         //onSubmit 새로고침 막는 이벤트
         e.preventDefault();
-        console.log(title)
-        console.log(description)
-        console.log(setting)
-        console.log(catogory)
     }
+
+    const onDrop = (files) => {
+        let formData = new FormData();
+
+        // axios header에  멀티파트라 적어줘야 파일을 인식한다
+        //https://darrengwon.tistory.com/560 
+        //참고해서 노션작성하기
+        const config = {
+            header: { 'content-type': 'multipart/form-data' }
+        }
+        console.log(files)
+        formData.append("file", files[0])
+
+        
+    }
+
+      
 
     return (
         <div style={{}}>
@@ -56,21 +69,22 @@ function VideoUploadPage(props) {
                     <div style={{ display:'flex', justifyContent:'space-between', paddingTop:'2vh'}}>
                         {/* 드랍존 */}
                         <Dropzone
-                            onDrop
-                            multiple
-                            maxSize>
-                                {({getRootProps, getInputProps}) => (
-                                    <div style={{ width: '50vh', height:'30vh', border:'1px solid lightgray', display:'flex',
-                                    alignItems:'center', justifyContent:'center'}} {...getRootProps}>
-                                        <input {...getInputProps()}/>
-                                        <PlusOneRounded sx={{ fontSize: 40 }} />
-                                    </div>
-
-                                )}
+                            onDrop={onDrop}
+                            multiple={false}
+                            maxSize={100000}>
+                            {({ getRootProps, getInputProps }) => (
+                                <div style={{
+                                    width: '50vh', height: '30vh', border: '2px solid lightgray', display: 'flex',
+                                    alignItems: 'center', justifyContent: 'center'
+                                }} {...getRootProps()}>
+                                    <input {...getInputProps()} />
+                                    <AddAPhoto sx={{ fontSize: 100 }} />
+                                </div>
+                            )}
                         </Dropzone>
                         {/* 썸네일 */}
                         <div>
-                            <img src alt/>
+                            {/* <img src alt/> */}
                         </div>
                     </div>
                     <br/>
