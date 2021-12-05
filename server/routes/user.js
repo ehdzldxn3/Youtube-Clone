@@ -4,7 +4,7 @@ const router = express.Router();
 const { User } = require('../models/User')
 //auth 미들웨어
 const { auth } = require('../middleware/auth');
-const { route } = require('express/lib/router');
+
 
 
 //회원가입

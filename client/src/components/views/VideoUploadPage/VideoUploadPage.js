@@ -53,8 +53,20 @@ function VideoUploadPage(props) {
         const config = {
             header: { 'content-type': 'multipart/form-data' }
         }
-        console.log(files)
+        
         formData.append("file", files[0])
+        formData.append("test", "testtest");
+        
+        console.log(formData)
+        axios.post('/api/video/videoUpload', formData, config)
+        .then(res => {
+            if(res.data.success) {
+                //console.log(res.data)
+            } else {
+                alert("실패")
+            }
+        })
+
 
         
     }
@@ -71,7 +83,7 @@ function VideoUploadPage(props) {
                         <Dropzone
                             onDrop={onDrop}
                             multiple={false}
-                            maxSize={100000}>
+                            maxSize={80000000}>
                             {({ getRootProps, getInputProps }) => (
                                 <div style={{
                                     width: '50vh', height: '30vh', border: '2px solid lightgray', display: 'flex',
