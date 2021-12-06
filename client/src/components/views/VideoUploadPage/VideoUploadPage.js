@@ -55,20 +55,31 @@ function VideoUploadPage(props) {
         }
         
         formData.append("file", files[0])
-        formData.append("test", "testtest");
-        
-        console.log(formData)
+                
         axios.post('/api/video/videoUpload', formData, config)
         .then(res => {
             if(res.data.success) {
-                //console.log(res.data)
+                console.log("filePath : "+res.data.filePath);    
+                let varivale = {
+                    filePath : res.data.filePath,
+                    fileName: res.data.fileName
+                }
+    
+                axios.post('/api/video/thumbnail', varivale)
+                    .then(res => {
+                        if(res.data.success) {
+                            console.log(res.data)
+                        } else {
+                            console.log(res.data)
+                            alert("썸네일 실패")
+                        }
+                        
+                    })
+
             } else {
                 alert("실패")
             }
         })
-
-
-        
     }
 
       
