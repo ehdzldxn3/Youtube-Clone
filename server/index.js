@@ -21,7 +21,8 @@ mongoose.connect (config.monggoURI)
 app.use(express.json());
 //쿠기 사용하기위한 설정
 app.use(cookieParser())
-//서버에 있는 파일을 쓰기위한 설정 '절대경로 설정해준다'
+//서버에 있는 파일을 쓰기위한 설정 
+// 'uploads'에 있는 파일을 /uploads 라는 경로로 접근 한다!
 app.use('/uploads',express.static('uploads'));
 
 
@@ -34,7 +35,7 @@ app.listen(port, () => {
 
 //test
 app.get('/', (req, res) => {
-  res.send('안녕 시발것?')
+  res.send('안녕?')
 })
 
 //user
