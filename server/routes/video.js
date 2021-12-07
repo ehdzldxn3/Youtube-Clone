@@ -50,14 +50,14 @@ router.post('/thumbnail', (req, res) => {
     let thumbsFilePath ="";
     let fileDuration ="";
 
-    console.log("파일 경로 : "+req.body.filePath)
 
     //윈도우에서만 사용해야함 경로 설정해야함 ㅠㅠ
     ffmpeg.setFfmpegPath('C:\\Program Files\\ffmpeg-4.4.1-full_build\\bin\\ffmpeg.exe');
+
     //비디오 정보 가져오기
     ffmpeg.ffprobe(req.body.filePath, function(err, metadata){
-        console.dir(metadata);
-        console.log(metadata);
+        //console.dir(metadata);
+        //console.log(metadata);
         fileDuration = metadata.format.duration;
     })
 
@@ -65,17 +65,19 @@ router.post('/thumbnail', (req, res) => {
     //경로및 저장 위치 
     ffmpeg(req.body.filePath)
     .on('filenames', function(filenames) {
-        console.log('Will generate ' + filenames.join(', '))
+        // console.log('Will generate ' + filenames.join(', '))
         thumbsFilePath = "uploads/thumbnails/" + filenames[0];
+        console.log(thumbsFilePath);
     })
     //썸네일 생성 끝나고 할일
     .on('end', function() {
-        console.log('Screenshots taken');
+        // console.log('Screenshots taken');
+        console.log(thumbsFilePath);
         return res.json({ success: true, thumbsFilePath: thumbsFilePath, fileDuration: fileDuration})
     })
     .on('error', function (err) {
-        console.log("ERR : ")
-        console.log("ERR : ",err)
+        // console.log("ERR : ")
+        // console.log("ERR : ",err)
         return res.json({ success: false, err: err})
     })
     //생성하기

@@ -18,7 +18,12 @@ function VideoUploadPage(props) {
     const [title, setTitle] = useState('')  //제목
     const [description, setDescription] = useState('')  //설명
     const [setting, setSetting] = useState()    //보안
-    const [catogory, setCatogory] = useState()    //보안
+    const [catogory, setCatogory] = useState()    //카테고리
+    const [filePath, setFilePath] = useState()
+    const [duration, setDuration] = useState()
+    const [thumbnailPath, setThumbnailPath] = useState()
+
+
 
     //CSS
     const classes = useStyles();
@@ -59,18 +64,25 @@ function VideoUploadPage(props) {
         axios.post('/api/video/videoUpload', formData, config)
         .then(res => {
             if(res.data.success) {
-                console.log("filePath : "+res.data.filePath);    
+                
                 let varivale = {
                     filePath : res.data.filePath,
                     fileName: res.data.fileName
                 }
+                //비디오 파일 저장
+                setFilePath(res.data.filePath)
     
                 axios.post('/api/video/thumbnail', varivale)
                     .then(res => {
                         if(res.data.success) {
-                            console.log(res.data)
+                            console.log(res.data.thumbsFilePath)
+                            //서버에서 받아온 듀레이션 & 썸네일 이미지 저장
+                            setDuration(res.data.fileDuration)
+                            setThumbnailPath(res.data.thumbsFilePath)
+                            console.log('썸네일 경로 : '+res.data.thumbsFilePath)
+
                         } else {
-                            console.log(res.data)
+                            
                             alert("썸네일 실패")
                         }
                         
@@ -85,7 +97,7 @@ function VideoUploadPage(props) {
       
 
     return (
-        <div style={{}}>
+        <div >
             <Container fixed style={{ verticalAlign:'middle'}}>
             <Typography align='center' component='div' variant="h3" color='primary'>Video Upload</Typography>
                 <form onSubmit={videoOnSubmit}>
@@ -106,9 +118,12 @@ function VideoUploadPage(props) {
                             )}
                         </Dropzone>
                         {/* 썸네일 */}
-                        <div>
-                            {/* <img src alt/> */}
-                        </div>
+                        {thumbnailPath && //썸네일이 올라오면 화면이 보여지다
+                            <div>
+                                {/* <img src={`http://localhost:5000/${thumbnailPath}`} alt='Thumbnail'/> */}
+                                <img src={`http://localhost:5000/uploads/test.png`} alt='Thumbnail'/>
+                            </div>
+                        }
                     </div>
                     <br/>
                     <br/>
