@@ -17,11 +17,11 @@ function VideoUploadPage(props) {
     
     const [title, setTitle] = useState('')  //제목
     const [description, setDescription] = useState('')  //설명
-    const [setting, setSetting] = useState()    //보안
-    const [catogory, setCatogory] = useState()    //카테고리
-    const [filePath, setFilePath] = useState()
-    const [duration, setDuration] = useState()
-    const [thumbnailPath, setThumbnailPath] = useState()
+    const [setting, setSetting] = useState('')    //보안
+    const [catogory, setCatogory] = useState('')    //카테고리
+    const [filePath, setFilePath] = useState('')
+    const [duration, setDuration] = useState('')
+    const [thumbnailPath, setThumbnailPath] = useState('')
 
 
 
@@ -29,19 +29,23 @@ function VideoUploadPage(props) {
     const classes = useStyles();
 
     const titleChange = (e) => {    //제목 체인지 이벤트
-        setTitle(e.currentTaget.value)
+        console.log(e.target.value)
+        setTitle(e.target.value)
     }
 
     const descriptionChange = (e) => {  //설명 체인지 이벤트
-        setDescription(e.currentTaget.value)
+        console.log(e.target.value)
+        setDescription(e.target.value)
     }
 
     const settingChange = (e) => {  //보안 체인지 이벤트
-        setSetting(e.currentTaget.value)
+        console.log(e.target.value)
+        setSetting(e.target.value)
     }
 
     const catogoryChange = (e) => {
-        setCatogory(e.currentTaget.value)
+        console.log(e.target.value)
+        setCatogory(e.target.value)
     }
 
     const videoOnSubmit = (e) => {
@@ -75,12 +79,9 @@ function VideoUploadPage(props) {
                 axios.post('/api/video/thumbnail', varivale)
                     .then(res => {
                         if(res.data.success) {
-                            console.log(res.data.thumbsFilePath)
                             //서버에서 받아온 듀레이션 & 썸네일 이미지 저장
                             setDuration(res.data.fileDuration)
                             setThumbnailPath(res.data.thumbsFilePath)
-                            console.log('썸네일 경로 : '+res.data.thumbsFilePath)
-
                         } else {
                             
                             alert("썸네일 실패")
@@ -109,7 +110,7 @@ function VideoUploadPage(props) {
                             maxSize={80000000}>
                             {({ getRootProps, getInputProps }) => (
                                 <div style={{
-                                    width: '50vh', height: '30vh', border: '2px solid lightgray', display: 'flex',
+                                    width: '50vh', height: '30vh', border: '4px solid lightgray', display: 'flex',
                                     alignItems: 'center', justifyContent: 'center'
                                 }} {...getRootProps()}>
                                     <input {...getInputProps()} />
@@ -119,11 +120,19 @@ function VideoUploadPage(props) {
                         </Dropzone>
                         {/* 썸네일 */}
                         {thumbnailPath && //썸네일이 올라오면 화면이 보여지다
-                            <div>
-                                {/* <img src={`http://localhost:5000/${thumbnailPath}`} alt='Thumbnail'/> */}
-                                <img src={`http://localhost:5000/uploads/test.png`} alt='Thumbnail'/>
+                            <div style={{
+                                width: '50vh', height: '30vh', border: '4px solid lightgray', display: 'flex',
+                                alignItems: 'center', justifyContent: 'center',
+                            }}>
+                                <img src={`http://localhost:5000/uploads/test.png`}
+                                    style={{
+                                        
+                                        width: '48vh', height: '28vh',
+                                        objectFit: 'cover'
+                                    }} />
                             </div>
                         }
+
                     </div>
                     <br/>
                     <br/>
