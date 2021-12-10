@@ -36,20 +36,22 @@ const upload = multer({storage: storage}).single('file')
 //비디오 업로드
 router.post('/videoUpload', (req, res) => {
     upload(req, res, err => {
-        console.log(req.body)
         if(err){
             return res.json({success:false, err})
         }
-        return res.json({ success: true, filePath: res.req.file.path, fileName: res.req.file.filename})
+        return res.json({ 
+            success: true, //비디오 업로드 성공
+            filePath: res.req.file.path, //비디오 경로
+            fileName: res.req.file.filename //비디오 이름
+        })
     })
 })
 
-//비디오 썸네일
+//비디오 썸네일 생성
 router.post('/thumbnail', (req, res) => {
     
     let thumbsFilePath ="";
     let fileDuration ="";
-
 
     //윈도우에서만 사용해야함 경로 설정해야함 ㅠㅠ
     ffmpeg.setFfmpegPath('C:\\Program Files\\ffmpeg-4.4.1-full_build\\bin\\ffmpeg.exe');
@@ -67,13 +69,15 @@ router.post('/thumbnail', (req, res) => {
     .on('filenames', function(filenames) {
         // console.log('Will generate ' + filenames.join(', '))
         thumbsFilePath = "uploads/thumbnails/" + filenames[0];
-        console.log(thumbsFilePath);
     })
     //썸네일 생성 끝나고 할일
     .on('end', function() {
         // console.log('Screenshots taken');
-        console.log(thumbsFilePath);
-        return res.json({ success: true, thumbsFilePath: thumbsFilePath, fileDuration: fileDuration})
+        return res.json({ 
+            success: true, 
+            thumbsFilePath: thumbsFilePath, //썸네일 경로
+            fileDuration: fileDuration, //비디오의 러닝타임
+        })
     })
     .on('error', function (err) {
         // console.log("ERR : ")
@@ -83,9 +87,9 @@ router.post('/thumbnail', (req, res) => {
     //생성하기
     .screenshots({
         // Will take screens at 20%, 40%, 60% and 80% of the video
-        count: 3,
-        folder: 'uploads/thumbnails',
-        size:'320x240',
+        count: 3,   //3개의 썸네일을 만든다
+        folder: 'uploads/thumbnails',   
+        size:'500x300', //크기
         // %b input basename ( filename w/o extension )
         filename:'thumbnail-%b.png'
     });

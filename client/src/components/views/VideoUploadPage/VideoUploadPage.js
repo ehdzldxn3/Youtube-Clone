@@ -12,6 +12,7 @@ import axios from "axios";
 
 
 
+
 function VideoUploadPage(props) {
 
     
@@ -19,9 +20,12 @@ function VideoUploadPage(props) {
     const [description, setDescription] = useState('')  //설명
     const [setting, setSetting] = useState('')    //보안
     const [catogory, setCatogory] = useState('')    //카테고리
-    const [filePath, setFilePath] = useState('')
-    const [duration, setDuration] = useState('')
-    const [thumbnailPath, setThumbnailPath] = useState('')
+    const [filePath, setFilePath] = useState('')    //비디오 경로
+    const [duration, setDuration] = useState(0)    //비디오 러닝타임
+    const [thumbnailPath, setThumbnailPath] = useState('')  //썸네일 경로
+    const [thumbnailCheck, setThumbnailCheck]  = useState(false) //비디오 업로드체크용
+    const [videoCheck, setVideoCheck]  = useState(false) //썸네일 확인 체크용
+    
 
 
 
@@ -73,17 +77,18 @@ function VideoUploadPage(props) {
                     filePath : res.data.filePath,
                     fileName: res.data.fileName
                 }
-                //비디오 파일 저장
+                //비디오경로 & 비디오 업로드 체크 
                 setFilePath(res.data.filePath)
+                setVideoCheck(res.data.success)
     
                 axios.post('/api/video/thumbnail', varivale)
                     .then(res => {
                         if(res.data.success) {
-                            //서버에서 받아온 듀레이션 & 썸네일 이미지 저장
+                            //듀레이션 & 썸네일 경로 & 업로드 체크저장
                             setDuration(res.data.fileDuration)
                             setThumbnailPath(res.data.thumbsFilePath)
+                            setThumbnailCheck(res.data.success)
                         } else {
-                            
                             alert("썸네일 실패")
                         }
                         
@@ -94,6 +99,7 @@ function VideoUploadPage(props) {
             }
         })
     }
+
 
       
 
@@ -119,20 +125,29 @@ function VideoUploadPage(props) {
                             )}
                         </Dropzone>
                         {/* 썸네일 */}
-                        {thumbnailPath && //썸네일이 올라오면 화면이 보여지다
+                        {thumbnailCheck === false ?
+                        //썸네일이 올라오면 화면이 보여지다
                             <div style={{
                                 width: '50vh', height: '30vh', border: '4px solid lightgray', display: 'flex',
                                 alignItems: 'center', justifyContent: 'center',
                             }}>
-                                <img src={`http://localhost:5000/uploads/test.png`}
+                                <AddPhotoAlternate sx={{ fontSize: 100 }} />
+                            </div>
+                            :
+                            //썸네일이 생기면 이미지 보여짐
+                            <div style={{
+                                width: '50vh', height: '30vh', border: '4px solid lightgray', display: 'flex',
+                                alignItems: 'center', justifyContent: 'center',
+                            }}>
+                                <img src={`http://localhost:5000/${thumbnailPath}`}
                                     style={{
                                         
                                         width: '48vh', height: '28vh',
                                         objectFit: 'cover'
                                     }} />
+                                    
                             </div>
                         }
-
                     </div>
                     <br/>
                     <br/>

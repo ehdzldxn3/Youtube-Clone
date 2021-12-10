@@ -107,7 +107,8 @@ function Navbar() {
                     <Upload size='large' />
                   </IconButton>
                   <Button color="inherit" href='/' onClick={logout}>로그아웃</Button>
-                </div>}
+                </div>
+              }
             </div>
           </Box>
         </Toolbar>
