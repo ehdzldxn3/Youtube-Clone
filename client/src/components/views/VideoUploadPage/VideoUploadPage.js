@@ -1,12 +1,15 @@
 import React, {useState, useCallback, } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Container, Typography, TextField, Box, Select, MenuItem, InputLabel, FormControl, Button, } from "@material-ui/core";
+import { Container, Typography, TextField, Box, Select, MenuItem, InputLabel, FormControl, Button,
+    Dialog, DialogTitle
+    } from "@material-ui/core";
 import { useStyles, } from '../Styles/VideoUploadStyles'
 import Dropzone from 'react-dropzone'
 import { AddPhotoAlternate, AddAPhoto  } from '@mui/icons-material';
 import axios from "axios";
-
-
+import { useSelector } from "react-redux";
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 
 
@@ -15,7 +18,7 @@ import axios from "axios";
 
 function VideoUploadPage(props) {
 
-    
+    const user = useSelector(state => state.user)
     const [title, setTitle] = useState('')  //제목
     const [description, setDescription] = useState('')  //설명
     const [setting, setSetting] = useState('')    //보안
@@ -25,7 +28,9 @@ function VideoUploadPage(props) {
     const [thumbnailPath, setThumbnailPath] = useState('')  //썸네일 경로
     const [thumbnailCheck, setThumbnailCheck]  = useState(false) //비디오 업로드체크용
     const [videoCheck, setVideoCheck]  = useState(false) //썸네일 확인 체크용
+    const [open, setOpen] = useState(false);    //팝업창 보여지고 안보여지고
     
+
 
 
 
@@ -33,28 +38,45 @@ function VideoUploadPage(props) {
     const classes = useStyles();
 
     const titleChange = (e) => {    //제목 체인지 이벤트
-        console.log(e.target.value)
         setTitle(e.target.value)
     }
 
     const descriptionChange = (e) => {  //설명 체인지 이벤트
-        console.log(e.target.value)
         setDescription(e.target.value)
     }
 
     const settingChange = (e) => {  //보안 체인지 이벤트
-        console.log(e.target.value)
         setSetting(e.target.value)
     }
 
     const catogoryChange = (e) => {
-        console.log(e.target.value)
         setCatogory(e.target.value)
     }
 
     const videoOnSubmit = (e) => {
-        //onSubmit 새로고침 막는 이벤트
         e.preventDefault();
+
+        const variables = {
+            writer: user.userData._id,
+            title: title,
+            description: description,
+            setting: setting,
+            filePath: filePath, 
+            catogory: catogory,
+            duration: duration,     
+            thumbnail: thumbnailPath,    
+        }
+
+        axios.post('/api/video/uploadVideo', variables)
+            .then(res => {
+                if(res.data.success) {
+                    setOpen(true)
+                    props.history.push('/')
+                    setOpen(false)
+                } else {
+                    alert('비디오 업로드 실패')
+                }
+            })
     }
 
     const onDrop = (files) => {
@@ -101,10 +123,23 @@ function VideoUploadPage(props) {
     }
 
 
-      
+    //팝업창
+    function SimpleDialog(props) {
+        const { open, } = props;
+        return (
+            <Dialog open={open}>
+                <Alert severity="success">
+                    <AlertTitle>업로드 성공</AlertTitle>
+                    <strong>업로드 성공 하였습니다.</strong>
+                </Alert>
+            </Dialog>
+        );
+      }  
 
+      
     return (
         <div >
+            <SimpleDialog open={open}/>
             <Container fixed style={{ verticalAlign:'middle'}}>
             <Typography align='center' component='div' variant="h3" color='primary'>Video Upload</Typography>
                 <form onSubmit={videoOnSubmit}>
@@ -113,7 +148,7 @@ function VideoUploadPage(props) {
                         <Dropzone
                             onDrop={onDrop}
                             multiple={false}
-                            maxSize={80000000}>
+                            maxSize={80000}>
                             {({ getRootProps, getInputProps }) => (
                                 <div style={{
                                     width: '50vh', height: '30vh', border: '4px solid lightgray', display: 'flex',
@@ -182,9 +217,10 @@ function VideoUploadPage(props) {
                             style={{ width: '60vh' }}
                             label="Setting"
                         >
-                            <MenuItem value=''><em>None</em></MenuItem>
-                            <MenuItem value={0}>Private</MenuItem>
-                            <MenuItem value={1}>Public</MenuItem>
+                            {/* 0은 기본값 */}
+                            <MenuItem value={0}><em>None</em></MenuItem>   
+                            <MenuItem value={1}>Private</MenuItem>
+                            <MenuItem value={2}>Public</MenuItem>
                         </Select>
                     </FormControl>
                     <br/>

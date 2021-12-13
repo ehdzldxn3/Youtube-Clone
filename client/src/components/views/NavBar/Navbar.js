@@ -4,7 +4,7 @@ import { AppBar, Toolbar, IconButton, Typography, Box, Badge, Button } from "@ma
 import { Upload, Search, } from '@mui/icons-material';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 

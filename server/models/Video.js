@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 
 const videoSchema = mongoose.Schema({
     writer:{    //작성자
-        type: Schema.Types.ObjectId,    //스키마로 불러옴 유저 아이디로 저장
+        type: Schema.Types.ObjectId,    //몽고디비 오브젝트형 아이디로 저장
         ref: 'User',
     },
     title : {   //제목
@@ -23,14 +23,14 @@ const videoSchema = mongoose.Schema({
     catogory: { //카테고리
         type: String,   
     },
-    views : {   //
+    views : {   // 몇번본건지 확인
         type: Number,
         default: 0 
     },
-    duration :{
+    duration :{     //비디오 러닝타임
         type: String
     },
-    thumbnail: {
+    thumbnail: {    //썸네일
         type: String
     }
 }, { timestamps: true })    //업로드 시간 생성한 시간 표시 된다!

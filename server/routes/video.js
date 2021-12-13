@@ -10,7 +10,8 @@ const ffmpeg = require('fluent-ffmpeg')
 
 //파일저장 
 //multer를 불러오고 이용해서 저장하자
-const multer = require('multer')
+const multer = require('multer');
+const { Video } = require('../models/Video');
 //multer 설정
 let storage = multer.diskStorage({
     //파일저장할 경로
@@ -33,7 +34,7 @@ let storage = multer.diskStorage({
 //파일업로드 미들웨어 설정
 const upload = multer({storage: storage}).single('file')
 
-//비디오 업로드
+//비디오 파일 서버에 저장
 router.post('/videoUpload', (req, res) => {
     upload(req, res, err => {
         if(err){
@@ -49,11 +50,9 @@ router.post('/videoUpload', (req, res) => {
 
 //비디오 썸네일 생성
 router.post('/thumbnail', (req, res) => {
-    
     let thumbsFilePath ="";
     let fileDuration ="";
-
-    //윈도우에서만 사용해야함 경로 설정해야함 ㅠㅠ
+    //윈도우에서만 경로 설정해야함 ㅠㅠ
     ffmpeg.setFfmpegPath('C:\\Program Files\\ffmpeg-4.4.1-full_build\\bin\\ffmpeg.exe');
 
     //비디오 정보 가져오기
@@ -95,6 +94,16 @@ router.post('/thumbnail', (req, res) => {
     });
 
 })
+
+//비디오 정보 저장
+router.post('/uploadVideo', (req, res) => {
+    const video = new Video(req.body)
+    video.save((err, doc) => {
+        if(err) return res.json({success: false, err})
+        res.status(200).json({success:true})
+    }) 
+})
+
 
 
 module.exports = router;
