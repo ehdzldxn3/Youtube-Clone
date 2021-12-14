@@ -43,7 +43,7 @@ router.post('/videoUpload', (req, res) => {
         return res.json({ 
             success: true, //비디오 업로드 성공
             filePath: res.req.file.path, //비디오 경로
-            fileName: res.req.file.filename //비디오 이름
+            fileName: res.req.file.filename, //비디오 이름
         })
     })
 })
