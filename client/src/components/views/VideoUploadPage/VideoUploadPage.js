@@ -91,7 +91,7 @@ function VideoUploadPage(props) {
         
         formData.append("file", files[0])
                 
-        axios.post('/api/video/videoUpload', formData, config)
+        axios.post('/api/video/uploadfiles', formData, config)
         .then(res => {
             if(res.data.success) {
                 
@@ -148,7 +148,7 @@ function VideoUploadPage(props) {
                         <Dropzone
                             onDrop={onDrop}
                             multiple={false}
-                            maxSize={80000}>
+                            maxSize={80000000000}>
                             {({ getRootProps, getInputProps }) => (
                                 <div style={{
                                     width: '50vh', height: '30vh', border: '4px solid lightgray', display: 'flex',
@@ -236,12 +236,12 @@ function VideoUploadPage(props) {
                             style={{ width: '60vh' }}
                             label="Catogory"
                         >
-                            <MenuItem value=''><em>None</em></MenuItem>
-                            <MenuItem value={0}>Film & Animation</MenuItem>
-                            <MenuItem value={1}>Autos & Vehicles</MenuItem>
-                            <MenuItem value={2}>Music</MenuItem>
-                            <MenuItem value={3}>Pets & Animals</MenuItem>
-                            <MenuItem value={4}>Sports</MenuItem>
+                            <MenuItem value={0}><em>None</em></MenuItem>
+                            <MenuItem value={1}>Film & Animation</MenuItem>
+                            <MenuItem value={2}>Autos & Vehicles</MenuItem>
+                            <MenuItem value={3}>Music</MenuItem>
+                            <MenuItem value={4}>Pets & Animals</MenuItem>
+                            <MenuItem value={5}>Sports</MenuItem>
                         </Select>
                     </FormControl>
                     <br/>

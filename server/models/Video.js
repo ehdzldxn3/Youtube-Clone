@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 const videoSchema = mongoose.Schema({
     writer:{    //작성자
         type: Schema.Types.ObjectId,    //몽고디비 오브젝트형 아이디로 저장
-        ref: 'User',
+        ref: 'User',                    //user 모델에 있는 모든정보를 저장
     },
     title : {   //제목
         type:String,

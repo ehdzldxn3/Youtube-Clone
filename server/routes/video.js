@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 //video
-// const { Video } = require('../models/Video')
+
+
 
 //썸넹일 만드는거 참고해서 노션작성
 //https://lts0606.tistory.com/510
@@ -13,7 +14,8 @@ const ffmpeg = require('fluent-ffmpeg')
 const multer = require('multer');
 const { Video } = require('../models/Video');
 //multer 설정
-let storage = multer.diskStorage({
+//multer 설정
+const storage = multer.diskStorage({
     //파일저장할 경로
     destination: (req, file, cb) => {
         cb(null, 'uploads/')
@@ -32,21 +34,24 @@ let storage = multer.diskStorage({
     }
 })
 //파일업로드 미들웨어 설정
-const upload = multer({storage: storage}).single('file')
+const upload = multer({storage}).single('file')
 
-//비디오 파일 서버에 저장
-router.post('/videoUpload', (req, res) => {
+//비디오 업로드
+router.post('/uploadfiles', (req, res) => {
+    
     upload(req, res, err => {
+        
         if(err){
             return res.json({success:false, err})
         }
         return res.json({ 
             success: true, //비디오 업로드 성공
             filePath: res.req.file.path, //비디오 경로
-            fileName: res.req.file.filename, //비디오 이름
+            fileName: res.req.file.filename //비디오 이름
         })
     })
 })
+
 
 //비디오 썸네일 생성
 router.post('/thumbnail', (req, res) => {
@@ -57,8 +62,6 @@ router.post('/thumbnail', (req, res) => {
 
     //비디오 정보 가져오기
     ffmpeg.ffprobe(req.body.filePath, function(err, metadata){
-        //console.dir(metadata);
-        //console.log(metadata);
         fileDuration = metadata.format.duration;
     })
 
@@ -66,12 +69,10 @@ router.post('/thumbnail', (req, res) => {
     //경로및 저장 위치 
     ffmpeg(req.body.filePath)
     .on('filenames', function(filenames) {
-        // console.log('Will generate ' + filenames.join(', '))
         thumbsFilePath = "uploads/thumbnails/" + filenames[0];
     })
     //썸네일 생성 끝나고 할일
     .on('end', function() {
-        // console.log('Screenshots taken');
         return res.json({ 
             success: true, 
             thumbsFilePath: thumbsFilePath, //썸네일 경로
@@ -79,14 +80,12 @@ router.post('/thumbnail', (req, res) => {
         })
     })
     .on('error', function (err) {
-        // console.log("ERR : ")
-        // console.log("ERR : ",err)
         return res.json({ success: false, err: err})
     })
     //생성하기
     .screenshots({
         // Will take screens at 20%, 40%, 60% and 80% of the video
-        count: 3,   //3개의 썸네일을 만든다
+        count: 1,   //3개의 썸네일을 만든다
         folder: 'uploads/thumbnails',   
         size:'500x300', //크기
         // %b input basename ( filename w/o extension )
@@ -104,6 +103,17 @@ router.post('/uploadVideo', (req, res) => {
     }) 
 })
 
+//비디오 가져오기
+router.get('/getVideo', (req, res) => {
+    
+    //모든 비디오를 가져와서 프론트에 보낸다.
+    Video.find()
+    .populate('writer') //writer은 스키마 오브젝트 아이디 타입으로 했기때문에 이걸 설정해준다 안하면 writer만 가져옴
+    .exec( (err, videos) => {
+        if(err) return res.status(400).send(err)
+        res.status(200).json({ success: true, videos})
+    })
 
+})
 
 module.exports = router;
