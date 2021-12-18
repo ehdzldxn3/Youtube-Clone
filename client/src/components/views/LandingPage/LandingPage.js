@@ -1,32 +1,19 @@
 import React, { useEffect, useState, } from 'react'
 import axios from 'axios'
-import { withRouter } from 'react-router-dom'
-import { Box, Grid, Card, Typography, CardMedia, CardContent } from '@material-ui/core'
+import { withRouter, } from 'react-router-dom'
+import { Box, Grid, Card, Typography, CardMedia, CardContent, Link, Avatar,
+    CardHeader, } 
+from '@material-ui/core'
 import video from 'ffmpeg/lib/video';
-
+import moment from 'moment'
+import { height } from '@mui/system';
 
 
 
 
 function LandingPage(props) {
 
-    const ShadowBox = ({ shadow }) => (
-        <Card sx={{ mb: 3, boxShadow: shadow }}>
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    py: 10,
-                    bgcolor: 'primary.light',
-                    color: 'grey.800'
-                }}
-            >
-                <Box sx={{ color: 'inherit' }}>boxShadow: {shadow}</Box>
-            </Box>
-        </Card>
-    );
-
+    //비디오 변수
     const [video, setVideo] = useState([])
 
     useEffect(() => {
@@ -34,30 +21,45 @@ function LandingPage(props) {
             .then(res => {
                 if (res.data.success) {
                     setVideo(res.data.videos)
+                    console.log(res.data.videos)
                 } else {
                     alert('비디오 가져오기 실패')
                 }
             })
     }, [])
 
+    //비디오 렌더링
     const renderVideo = video.map((video, index) => {
+        let minutes = Math.floor(video.duration / 60)
+        let seconds = Math.floor((video.duration - minutes * 60))
+
         return (
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-                <Card sx={{}} style={{ maxWidth: '30vh', maxHeight: '30vh', minWidth: '30vh', }}>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image="/static/images/cards/contemplative-reptile.jpg"
-                        alt="green iguana"
+            // Grid item xs전체사이즈 
+            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                <Card sx={1} >
+                    <Link href={`/video/post/${video._id}`} color="inherit">
+                        {/* <CardMedia
+                            component="img"
+                            height="180"
+                            image={`http://localhost:5000/${video.thumbnail}`}
+                            alt="이미지없음"
+                        /> */}
+                        <div>
+                            <img style={{width: '100%', }} src={`http://localhost:5000/${video.thumbnail}`}/>
+                            <div className='duration'>
+                                <span>{minutes} : {seconds}</span>
+                            </div>
+                        </div>
+                    </Link>
+                    <CardHeader 
+                        avatar={
+                            <Avatar aria-label="recipe">R</Avatar>
+                        }
+                        title={video.title}
                     />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                            Lizard
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Lizards are a widespread group of squamate reptiles, with over 6,000
-                        </Typography>
-                    </CardContent>
+                    <span>{video.description}</span>
+                    <br/>
+                    <span> {video.views} - {moment(video.createdAt).format('yyyy-MM-DD')}</span>
                 </Card>
             </Grid>
         )
@@ -68,11 +70,7 @@ function LandingPage(props) {
             <Typography variant='h2' style={{ borderBottom: '1px solid' }}>V I D E O</Typography>
 
             <Grid container spacing={3} style={{ marginTop: '1vh' }}>
-                <Grid item xs={12}>
-                    <Grid container spacing={3}>
-                        {renderVideo}
-                    </Grid>
-                </Grid>
+            {renderVideo}
             </Grid>
         </div>
     )
