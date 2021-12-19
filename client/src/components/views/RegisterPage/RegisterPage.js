@@ -1,6 +1,8 @@
 import React, { useState, } from 'react'
 import { useDispatch } from 'react-redux'
+import { Grid, TextField, Avatar, Box } from '@material-ui/core'
 import {  signUp } from '../../../_actions/user_action'
+
 
 export default function RegisterPage(props) {
 
@@ -12,18 +14,18 @@ export default function RegisterPage(props) {
     const [ConfirmPassword, setConfirmPassword] = useState("")
 
     
-    const onEmailHandler = (e) => {
-        setEmail(e.currentTarget.value)            
-    }
-    const onPasswordHandler = (e) => {
-        setPassword(e.currentTarget.value)
-    }
-    const onNameHandler = (e) => {
-        setName(e.currentTarget.value)
-    }
-    const onConfirmPasswordHandler = (e) => {
-        setConfirmPassword(e.currentTarget.value)
-    }
+    // const onEmailHandler = (e) => {
+    //     setEmail(e.currentTarget.value)            
+    // }
+    // const onPasswordHandler = (e) => {
+    //     setPassword(e.currentTarget.value)
+    // }
+    // const onNameHandler = (e) => {
+    //     setName(e.currentTarget.value)
+    // }
+    // const onConfirmPasswordHandler = (e) => {
+    //     setConfirmPassword(e.currentTarget.value)
+    // }
 
 
     const onSubmitHandler = (e) => {
@@ -52,14 +54,83 @@ export default function RegisterPage(props) {
     }
 
     return (
-        <div style={{
-            display: 'flex', justifyContent: 'center', alignItems: 'center',
-            width: '100%', height:'100vh'
-        }}>
-            <form style={{display: 'flex', flexDirection: 'column'}}
+        <Box
+          sx={{
+            marginTop: '10vh',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            
+          }}
+        >
+        <div  style={{background: '#BDBDBD', width:'20vh', height:'20vh', borderRadius:'70%',overflow:'hidden'}}>
+            <img style={{width:'100%', height:'100%', objectFit:'cover'}}alt='이미지'/>
+        </div>
+            <br />
+            <br />      
+            <form 
+            // style={{ display: 'flex', flexDirection: 'column' }}
                 onSubmit={onSubmitHandler}>
+                    <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            autoComplete="given-name"
+                            name="firstName"
+                            required
+                            fullWidth
+                            id="firstName"
+                            label="First Name"
+                            autoFocus
+                            variant='outlined'
+                        />
+                    </Grid>
 
-                <label>Email</label>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            required
+                            fullWidth
+                            id="lastName"
+                            label="Last Name"
+                            name="lastName"
+                            variant='outlined'
+                        />
+                    </Grid>  
+                    
+                    <Grid item xs={12} sm={12}>
+                        <TextField
+                            required
+                            fullWidth
+                            id="email"
+                            label="E-Mail"
+                            name="email"
+                            variant='outlined'
+                        />
+                    </Grid>     
+
+                    <Grid item xs={12} sm={12}>
+                        <TextField
+                            required
+                            fullWidth
+                            id="Password"
+                            label="Password"
+                            name="Password"
+                            type='password'
+                            variant='outlined'
+                        />
+                    </Grid>    
+                    <Grid item xs={12} sm={12}>
+                        <TextField
+                            required
+                            fullWidth
+                            id="ConfirmPassword"
+                            label="ConfirmPassword"
+                            name="ConfirmPassword"
+                            type='password'
+                            variant='outlined'
+                            
+                        />
+                    </Grid>                                                   
+                {/* <label>Email</label>
                 <input type="email" value={Email} onChange={onEmailHandler}/>
                 
                 <label>Name</label>
@@ -69,12 +140,14 @@ export default function RegisterPage(props) {
                 <input type="password" value={Password} onChange={onPasswordHandler}/>
                 
                 <label>Confirm Password</label>
-                <input type="password" value={ConfirmPassword} onChange={onConfirmPasswordHandler}/>
+                <input type="password" value={ConfirmPassword} onChange={onConfirmPasswordHandler}/> */}
 
+                </Grid>
                 <br/>
-                <button>Login</button>
             </form>
-        </div>
+            <button>Login</button>
+        </Box>
+        
     )
 }
 

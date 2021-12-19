@@ -32,10 +32,9 @@ function LandingPage(props) {
     const renderVideo = video.map((video, index) => {
         let minutes = Math.floor(video.duration / 60)
         let seconds = Math.floor((video.duration - minutes * 60))
-
         return (
             // Grid item xs전체사이즈 
-            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+            <Grid item xs={12} sm={6} md={4} lg={3} key={index} >
                 <Card sx={1} >
                     <Link href={`/video/post/${video._id}`} color="inherit">
                         {/* <CardMedia
@@ -44,8 +43,8 @@ function LandingPage(props) {
                             image={`http://localhost:5000/${video.thumbnail}`}
                             alt="이미지없음"
                         /> */}
-                        <div>
-                            <img style={{width: '100%', }} src={`http://localhost:5000/${video.thumbnail}`}/>
+                        <div style={{position: 'relative'}}>
+                            <img style={{width: '100%',}} src={`http://localhost:5000/${video.thumbnail}`}/>
                             <div className='duration'>
                                 <span>{minutes} : {seconds}</span>
                             </div>
@@ -56,10 +55,9 @@ function LandingPage(props) {
                             <Avatar aria-label="recipe">R</Avatar>
                         }
                         title={video.title}
+                        subheader={video.writer.name}
                     />
-                    <span>{video.description}</span>
-                    <br/>
-                    <span> {video.views} - {moment(video.createdAt).format('yyyy-MM-DD')}</span>
+                    <span> 조회수 : {video.views} / 업로드 : {moment(video.createdAt).format('yyyy-MM-DD')}</span>
                 </Card>
             </Grid>
         )
