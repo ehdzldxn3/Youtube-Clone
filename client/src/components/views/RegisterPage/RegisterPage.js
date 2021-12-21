@@ -1,23 +1,23 @@
 import React, { useState, } from 'react'
 import { useDispatch } from 'react-redux'
 import { Grid, TextField, Avatar, Box } from '@material-ui/core'
-import {  signUp } from '../../../_actions/user_action'
+import { signUp } from '../../../_actions/user_action'
+import { withRouter } from 'react-router-dom'
 
-
-export default function RegisterPage(props) {
+function RegisterPage(props) {
 
     const dispatch = useDispatch()
     
     
     const [FirstName, setFirstName] = useState("")
     const [LastName, setLastName] = useState("")
-    const [Email, setEmail] = useState("")
+    const [Id, setId] = useState("")
     const [Password, setPassword] = useState("")
     const [ConfirmPassword, setConfirmPassword] = useState("")
 
     
-    const onEmailHandler = (e) => {
-        setEmail(e.target.value)            
+    const onIdHandler = (e) => {
+        setId(e.target.value)            
     }
     const onPasswordHandler = (e) => {
         setPassword(e.target.value)
@@ -43,8 +43,9 @@ export default function RegisterPage(props) {
         }
         //서버에 보낼 데이터
         let body = {
-            email : Email,
-            name : Name,
+            id : Id,
+            firstname : FirstName,
+            lastname : LastName,
             password : Password,
         }
         
@@ -88,7 +89,7 @@ export default function RegisterPage(props) {
                             label="First Name"
                             autoFocus
                             variant='outlined'
-                            onChange={onNameHandler}
+                            onChange={onFirstNameHandler}
                         />
                     </Grid>
 
@@ -100,6 +101,7 @@ export default function RegisterPage(props) {
                             label="Last Name"
                             name="lastName"
                             variant='outlined'
+                            onChange={onLastNameHandler}
                         />
                     </Grid>  
                     
@@ -107,10 +109,11 @@ export default function RegisterPage(props) {
                         <TextField
                             required
                             fullWidth
-                            id="email"
-                            label="E-Mail"
-                            name="email"
+                            id="ID"
+                            label="ID"
+                            name="id"
                             variant='outlined'
+                            onChange={onIdHandler}
                         />
                     </Grid>     
 
@@ -123,6 +126,7 @@ export default function RegisterPage(props) {
                             name="Password"
                             type='password'
                             variant='outlined'
+                            onChange={onPasswordHandler}
                         />
                     </Grid>    
                     <Grid item xs={12} sm={12}>
@@ -134,7 +138,7 @@ export default function RegisterPage(props) {
                             name="ConfirmPassword"
                             type='password'
                             variant='outlined'
-                            
+                            onChange={onConfirmPasswordHandler}
                         />
                     </Grid>                                                   
                 </Grid>
@@ -147,4 +151,4 @@ export default function RegisterPage(props) {
     )
 }
 
- 
+export default withRouter(RegisterPage)

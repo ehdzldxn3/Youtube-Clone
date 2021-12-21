@@ -17,11 +17,11 @@ function LandingPage(props) {
     const [video, setVideo] = useState([])
 
     useEffect(() => {
+        
         axios.get('/api/video/getVideo')
             .then(res => {
                 if (res.data.success) {
                     setVideo(res.data.videos)
-                    console.log(res.data.videos)
                 } else {
                     alert('비디오 가져오기 실패')
                 }
@@ -55,7 +55,7 @@ function LandingPage(props) {
                             <Avatar aria-label="recipe">R</Avatar>
                         }
                         title={video.title}
-                        subheader={video.writer.name}
+                        subheader={video.writer.lastname + video.writer.firstname}
                     />
                     <span> 조회수 : {video.views} / 업로드 : {moment(video.createdAt).format('yyyy-MM-DD')}</span>
                 </Card>

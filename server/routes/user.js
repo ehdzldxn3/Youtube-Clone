@@ -10,9 +10,11 @@ const { auth } = require('../middleware/auth');
 //회원가입
 router.post('/signUp', (req, res) => {
   //회원가입 필요한 정보 가져와서 DB에 저장한다
+  console.log(req.body)
   const user = new User(req.body)
+  console.log(user)
   user.save((err, userInfo) => {
-    if (err) return res.json({ success: false })
+    if (err) return res.json({ success: false, error:err})
     return res.status(200).json({
       success: true
     })

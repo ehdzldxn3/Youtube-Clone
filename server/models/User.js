@@ -11,12 +11,12 @@ const jwt =require('jsonwebtoken')
 
 const userSchema = mongoose.Schema({
     
-    name: {
+    firstname: {
         type: String,
         maxlength: 50,
     },
 
-    email: {
+    id: {
         type: String,
         trim: true,
         unique: 1,     
@@ -38,11 +38,11 @@ const userSchema = mongoose.Schema({
     },
 
     image: String,
-    
+
     token: {
         type: String
     },
-
+    
     tokenExp: {
         type: Number
     }

@@ -31,7 +31,6 @@ function LoginPage(props) {
         
         dispatch(loginUser(body))
             .then(response => {
-                console.log(response)
                 if( response.payload.loginSuccess ){
                     props.history.push('/')
                 } else {
