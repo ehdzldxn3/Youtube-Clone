@@ -21,6 +21,7 @@ function LandingPage(props) {
         axios.get('/api/video/getVideo')
             .then(res => {
                 if (res.data.success) {
+                    console.log(res.data)
                     setVideo(res.data.videos)
                 } else {
                     alert('비디오 가져오기 실패')

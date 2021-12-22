@@ -3,16 +3,17 @@ import { useDispatch } from 'react-redux'
 import { loginUser } from '../../../_actions/user_action'
 import { withRouter } from 'react-router-dom'
 
+
 function LoginPage(props) {
 
     const dispatch = useDispatch()
     
-    const [Email, setEmail] = useState("")
+    const [Id, setId] = useState("")
     const [Password, setPassword] = useState("")
 
     
-    const onEmailHandler = (e) => {
-        setEmail(e.currentTarget.value)            
+    const onIdHandler = (e) => {
+        setId(e.currentTarget.value)            
     }
 
     const onPasswordHandler = (e) => {
@@ -24,7 +25,7 @@ function LoginPage(props) {
         e.preventDefault();
         //서버에 보낼 데이터
         let body = {
-            email : Email,
+            id : Id,
             password : Password
         }
         //액션
@@ -35,6 +36,7 @@ function LoginPage(props) {
                     props.history.push('/')
                 } else {
                     console.log('에러')
+                    
                 }
             })
 
@@ -48,8 +50,8 @@ function LoginPage(props) {
         }}>
             <form style={{display: 'flex', flexDirection: 'column'}}
                 onSubmit={onSubmitHandler}>
-                <label>Email</label>
-                <input type="text" value={Email} onChange={onEmailHandler}/>
+                <label>ID</label>
+                <input type="text" value={Id} onChange={onIdHandler}/>
                 <label>Password</label>
                 <input type="password" value={Password} onChange={onPasswordHandler}/>
                 <br/>

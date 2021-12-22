@@ -9,11 +9,13 @@ const { auth } = require('../middleware/auth');
 
 //회원가입
 router.post('/signUp', (req, res) => {
-  //회원가입 필요한 정보 가져와서 DB에 저장한다
   console.log(req.body)
+  //회원가입 필요한 정보 가져와서 DB에 저장한다
   const user = new User(req.body)
-  console.log(user)
+  console.log("비밀번호")
+  console.log(req.body.password);
   user.save((err, userInfo) => {
+    console.log(err)
     if (err) return res.json({ success: false, error:err})
     return res.status(200).json({
       success: true
@@ -24,16 +26,17 @@ router.post('/signUp', (req, res) => {
 //Login
 router.post('/login', (req, res) => {
   //요청된 email DB 찾는다.
-  User.findOne({ email: req.body.email }, (err, user) => {
+  User.findOne({ Id: req.body.id }, (err, user) => {
     if (!user) {
       return res.json({
         loginSuccess: false,
         msg: '존재하지 않는 계정입니다.'
       })
     }
+    
     //요청된 이메일이 DB에 있다면 비밀번호가 맞는지 확인
     user.comparePW(req.body.password, function (err, isMatch) {
-      if (!isMatch)
+      if (!isMatch) 
         return res.json({ loginSuccess: false, message: '비밀번호가 틀렸습니다.' })
       //비밀번호까지 맞다면 토큰을 생성한다.
       user.generateToken((err, user) => {
