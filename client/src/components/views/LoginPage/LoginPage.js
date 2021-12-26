@@ -29,14 +29,12 @@ function LoginPage(props) {
             password : Password
         }
         //액션
-        
         dispatch(loginUser(body))
             .then(response => {
                 if( response.payload.loginSuccess ){
                     props.history.push('/')
                 } else {
                     console.log('에러')
-                    
                 }
             })
 

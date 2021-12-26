@@ -48,7 +48,7 @@ function RegisterPage(props) {
             lastname : LastName,
             password : Password,
         }
-        
+
         dispatch(signUp(body))
             .then(response => {
                 if( response.payload.success ){
@@ -57,7 +57,6 @@ function RegisterPage(props) {
                     alert('에러')
                 }
             })
-
     }
 
     return (

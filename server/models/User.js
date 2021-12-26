@@ -50,29 +50,30 @@ const userSchema = mongoose.Schema({
 
 
 //암호화
-userSchema.pre('save', function (next)  {
-    var user = this;
-    if(user.isModified('password')){
-        //비밀번호를 암호화 시킨다
-        bcrypt.genSalt(saltRounds, function(err, salt) {
-            if(err) return next(err)
-            bcrypt.hash(user.password, salt, function(err, hash) {
-                if(err) return next(err)
-                user.password = hash
-                next()
-            })
-        })
-    } else {
-        next()
-    }
-})
+// userSchema.pre('save', function (next)  {
+//     var user = this;
+//     if(user.isModified('password')){
+//         //비밀번호를 암호화 시킨다
+//         bcrypt.genSalt(saltRounds, function(err, salt) {
+//             if(err) return next(err)
+//             bcrypt.hash(user.password, salt, function(err, hash) {
+//                 if(err) return next(err)
+//                 user.password = hash
+//                 next()
+//             })
+//         })
+//     } else {
+//         next()
+//     }
+// })
 
 //비밀번호 암호화 맞는지 확인 하는 메소드
 userSchema.methods.comparePW = function (pw, cb)  {
-
     //비밀번호가 맞는지 확인하기 
     //* 가져온 비밀번호를 암호화 시켜서 맞는지 확인하는것
     bcrypt.compare(pw,this.password, function (err, isMatch){
+        console.log(err)
+        console.log(isMatch)
         if(err) return cb(err);
         cb(null, isMatch)
     })

@@ -9,13 +9,10 @@ const { auth } = require('../middleware/auth');
 
 //회원가입
 router.post('/signUp', (req, res) => {
-  console.log(req.body)
   //회원가입 필요한 정보 가져와서 DB에 저장한다
   const user = new User(req.body)
-  console.log("비밀번호")
-  console.log(req.body.password);
+
   user.save((err, userInfo) => {
-    console.log(err)
     if (err) return res.json({ success: false, error:err})
     return res.status(200).json({
       success: true
@@ -33,7 +30,7 @@ router.post('/login', (req, res) => {
         msg: '존재하지 않는 계정입니다.'
       })
     }
-    
+    return res.json({ loginSuccess: true, message: '비밀번호가 틀렸습니다.' , user})
     //요청된 이메일이 DB에 있다면 비밀번호가 맞는지 확인
     user.comparePW(req.body.password, function (err, isMatch) {
       if (!isMatch) 
