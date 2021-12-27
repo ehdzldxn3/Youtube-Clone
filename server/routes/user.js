@@ -23,18 +23,18 @@ router.post('/signUp', (req, res) => {
 //Login
 router.post('/login', (req, res) => {
   //요청된 email DB 찾는다.
-  User.findOne({ Id: req.body.id }, (err, user) => {
+  console.log(req.body.id)
+  User.findOne({ id: req.body.id }, (err, user) => {    
     if (!user) {
       return res.json({
         loginSuccess: false,
         msg: '존재하지 않는 계정입니다.'
       })
     }
-    return res.json({ loginSuccess: true, message: '비밀번호가 틀렸습니다.' , user})
+    console.log(user)
     //요청된 이메일이 DB에 있다면 비밀번호가 맞는지 확인
     user.comparePW(req.body.password, function (err, isMatch) {
-      if (!isMatch) 
-        return res.json({ loginSuccess: false, message: '비밀번호가 틀렸습니다.' })
+      if (!isMatch) return res.json({ loginSuccess: false, message: '비밀번호가 틀렸습니다.' })
       //비밀번호까지 맞다면 토큰을 생성한다.
       user.generateToken((err, user) => {
         if (err) return res.status(400).send(err)
@@ -45,6 +45,7 @@ router.post('/login', (req, res) => {
           .json({ loginSuccess: true, userId: user._id })
       })
     })
+
   })
 })
 
