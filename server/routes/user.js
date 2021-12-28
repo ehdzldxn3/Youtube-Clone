@@ -31,7 +31,6 @@ router.post('/login', (req, res) => {
         msg: '존재하지 않는 계정입니다.'
       })
     }
-    console.log(user)
     //요청된 이메일이 DB에 있다면 비밀번호가 맞는지 확인
     user.comparePW(req.body.password, function (err, isMatch) {
       if (!isMatch) return res.json({ loginSuccess: false, message: '비밀번호가 틀렸습니다.' })

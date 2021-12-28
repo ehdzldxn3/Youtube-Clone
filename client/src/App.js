@@ -5,6 +5,7 @@ import RegisterPage from './components/views/RegisterPage/RegisterPage'
 import Navbar from './components/views/NavBar/Navbar'
 import Auth from './hoc/auth'
 import VideoUploadPage from './components/views/VideoUploadPage/VideoUploadPage'
+import VideoDetailPage from './components/views/VideoDetailPage/VideoDetailPage'
 
 import { ThemeProvider } from "@material-ui/core/styles";
 import { unstable_createMuiStrictModeTheme } from '@material-ui/core/styles';
@@ -20,16 +21,20 @@ function App() {
     <Router>
         <Navbar/>    
         <div style={{ paddingTop: '69px'}}>
-        <Switch>
-          {/* 메인페이지 */}
-          <Route exact path='/' component={Auth(LandingPage, null)} />
-          {/* 로그인페이지 */}
-          <Route path='/login' component={Auth(LoginPage, false)} />
-          {/* 회원가입 */}
-          <Route path='/register' component={Auth(RegisterPage, false)} />
-          {/* 비디오 업로드 */}
-          <Route path='/video/upload' component={Auth(VideoUploadPage, true)} />
-        </Switch>
+          <Switch>
+            {/* 메인페이지 */}
+            <Route exact path='/' component={Auth(LandingPage, null)} />
+            {/* 로그인페이지 */}
+            <Route path='/login' component={Auth(LoginPage, false)} />
+            {/* 회원가입 */}
+            <Route path='/register' component={Auth(RegisterPage, false)} />
+            {/* 비디오 업로드 */}
+            <Route path='/video/upload' component={Auth(VideoUploadPage, true)} />
+            {/* 비디오 디테일 */}
+            <Route path='/video' component={Auth(VideoDetailPage, null)} />
+
+
+          </Switch>
         </div>
     </Router>
     </ThemeProvider>
