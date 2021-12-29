@@ -32,7 +32,7 @@ function App() {
             <Route path='/video/upload' component={Auth(VideoUploadPage, true)} />
             {/* 비디오 디테일 */}
             <Route path='/video' component={Auth(VideoDetailPage, null)} />
-
+            <Route path='/video/:videoId' component={Auth(VideoDetailPage, null)} />
 
           </Switch>
         </div>
