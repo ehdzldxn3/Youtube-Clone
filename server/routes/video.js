@@ -118,12 +118,13 @@ router.get('/getVideo', (req, res) => {
 
 //비디오 디테일 가져오기
 router.get('/getVideoDetail', (req, res) => {
+    console.log("req.body 진입해서 데이터 뿌림")
     console.log(req.body)
+    
     Video.findOne({ "_id": req.body.videoId})
         .populate('writer') 
         .exec((err, videoDetail) => {
             if(err) return res.status(400).send(err)
-            console.log(videoDetail)
             return res.status(200).json({success: true, videoDetail})
         })
 

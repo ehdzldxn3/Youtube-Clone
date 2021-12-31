@@ -8,11 +8,9 @@ function VideoDetailPage(props) {
     //주소창에 있는 비디오 아이디를 가져옴
     const videoId = props.match.params.videoId 
 
-    console.log(props.match.params)
-    const variable ={videoId: videoId}
+    const variable = {videoId: videoId}
 
     const [videoDetail, setVideoDetail] = useState([])
-
 
 
 
@@ -20,7 +18,7 @@ function VideoDetailPage(props) {
         axios.get('/api/video/getVideoDetail', variable)
             .then(res => {
                 if(res.data.success) {
-                    console.log(res.data)
+                    
                     setVideoDetail(res.data.videoDetail)
 
                 } else {

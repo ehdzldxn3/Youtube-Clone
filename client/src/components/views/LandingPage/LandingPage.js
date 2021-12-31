@@ -36,7 +36,7 @@ function LandingPage(props) {
             // Grid item xs전체사이즈 
             <Grid item xs={12} sm={6} md={4} lg={3} key={index} >
                 <Card sx={1} >
-                    <Link href={`/video/${video._id}`} color="inherit">
+                    <a href={`/video/${video._id}`} color="inherit">
                         {/* <CardMedia
                             component="img"
                             height="180"
@@ -49,7 +49,7 @@ function LandingPage(props) {
                                 <span>{minutes} : {seconds}</span>
                             </div>
                         </div>
-                    </Link>
+                    </a>
                     <CardHeader 
                         avatar={
                             <Avatar aria-label="recipe">R</Avatar>
