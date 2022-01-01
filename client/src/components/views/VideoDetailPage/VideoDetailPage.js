@@ -1,6 +1,6 @@
 import React, { useEffect, useState, } from 'react'
 import { withRouter, } from 'react-router-dom'
-import { Grid,Box, Input} from '@material-ui/core'
+import SideVideo from './Sections/SideVideo';
 import { List, Avatar, Row, Col } from 'antd';
 import axios from 'axios';
 
@@ -15,12 +15,10 @@ function VideoDetailPage(props) {
 
 
     useEffect( ()=> {
-        axios.get('/api/video/getVideoDetail', variable)
+        axios.post('/api/video/getVideoDetail', variable)
             .then(res => {
                 if(res.data.success) {
-                    
                     setVideoDetail(res.data.videoDetail)
-
                 } else {
                     alert('비디오 정보를 가져오지 못했습니다.')
                 }
@@ -31,10 +29,11 @@ function VideoDetailPage(props) {
         return (
             <Row gutter={[16, 16]}>
                 <Col lg={18} xs={24}>
-                    <div  style={{ width: '100%', padding: '3rem 4rem' }}>
-                        <video style={{ width: '100%' }} 
-                        src={`http://localhost:5000/${videoDetail.filePath}`} controls/>
-                         
+                    <div  style={{ width: '100%', height: '100%', padding: '3rem 4rem',}}>
+                        <div style={{display: 'flex', justifyContent: 'center', backgroundColor: 'lightgray'}}>
+                            <video style={{ height:'100%'}} 
+                            src={`http://localhost:5000/${videoDetail.filePath}`} controls/>
+                         </div>
     
                         <List.Item
                             // actions={[<LikeDislikes video videoId={videoId} userId={localStorage.getItem('userId')} />, <Subscriber userTo={Video.writer._id} userFrom={localStorage.getItem('userId')} />]}
@@ -53,7 +52,7 @@ function VideoDetailPage(props) {
                 </Col>
                 <Col lg={6} xs={24}>
     
-                    {/* <SideVideo /> */}
+                    <SideVideo />
     
                 </Col>
             </Row>

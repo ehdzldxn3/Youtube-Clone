@@ -9,11 +9,3 @@ export const useStyles = makeStyles({
         width: '60vh',
     }
 });
-
-
-
-// id="description" 
-//                     label="설명" 
-//                     variant="standard" 
-//                     fullWidth value={description} 
-//                     onChange={descriptionChange}
