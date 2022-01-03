@@ -23,7 +23,6 @@ router.post('/signUp', (req, res) => {
 //Login
 router.post('/login', (req, res) => {
   //요청된 email DB 찾는다.
-  console.log(req.body.id)
   User.findOne({ id: req.body.id }, (err, user) => {    
     if (!user) {
       return res.json({

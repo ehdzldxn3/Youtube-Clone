@@ -13,7 +13,7 @@ const ffmpeg = require('fluent-ffmpeg')
 //multer를 불러오고 이용해서 저장하자
 const multer = require('multer');
 const { Video } = require('../models/Video');
-//multer 설정
+
 //multer 설정
 const storage = multer.diskStorage({
     //파일저장할 경로

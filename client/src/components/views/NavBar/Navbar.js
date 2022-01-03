@@ -71,8 +71,6 @@ function Navbar() {
   }
 
     
-    
-    
 
 
     return (

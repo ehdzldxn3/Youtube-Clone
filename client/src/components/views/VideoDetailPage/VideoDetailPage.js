@@ -1,8 +1,10 @@
 import React, { useEffect, useState, } from 'react'
 import { withRouter, } from 'react-router-dom'
 import SideVideo from './Sections/SideVideo';
+import Subcribe from './Sections/Subcribe';
 import { List, Avatar, Row, Col } from 'antd';
 import axios from 'axios';
+import video from 'ffmpeg/lib/video';
 
 function VideoDetailPage(props) {
     //주소창에 있는 비디오 아이디를 가져옴
@@ -36,7 +38,7 @@ function VideoDetailPage(props) {
                          </div>
     
                         <List.Item
-                            // actions={[<LikeDislikes video videoId={videoId} userId={localStorage.getItem('userId')} />, <Subscriber userTo={Video.writer._id} userFrom={localStorage.getItem('userId')} />]}
+                            actions={[<Subcribe userTo={videoDetail.writer._id}/>]}
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={videoDetail.writer && videoDetail.writer.image} />}
