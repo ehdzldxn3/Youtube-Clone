@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 function Subcribe(props) {
 
     const [subscribeNumber, setSubscribeNumber] = useState(0)
+    const [subscribed, setSubscribed] = useState(false)
 
     useEffect(() => {
 
@@ -22,13 +23,19 @@ function Subcribe(props) {
 
         let subcribeVariable = { userTo: props.userTo, userFrom: localStorage.getItem('userId')}
         console.log(subcribeVariable)
-        // axios.post('/api/subcribe/subcribeNumber', variable)
+        // axios.post('/api/subcribe/subcribed', variable)
         //     .then(res => {
         //         if (res.data.success) {
-
+        //             console.log(res.data.subcribed)   
+        //             setSubscribed(res.data.subcribed)     
+                              
+        //         } else {
+        //             console.log('구독자수를 받아오지 못함')
         //         }
+                
         //     })
 
+            
 
     }, [])
 
@@ -36,10 +43,10 @@ function Subcribe(props) {
         <div>
             <button
                 style={{
-                    backgroundColor:'#CC0000', borderRadius:'4px', color:'white', padding:'10px 16px',
+                    backgroundColor: `${subscribed ? '#AAAAAA' : '#CC0000'}`, borderRadius:'4px', color:'white', padding:'10px 16px',
                     fontWeight: '500', fontSize: '1rem', textTransform: 'uppercase'    }}
             >
-                0 Subcribe
+                {subscribeNumber} {subscribed ? '구독중' : '구독'}
             </button>
 
         </div>
