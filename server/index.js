@@ -43,7 +43,7 @@ app.use('/api/user', require('./routes/user'));
 app.use('/api/video', require('./routes/video'));
 
 //구독
-app.use('/api/subcribe', require('./routes/subcribe'));
+app.use('/api/subscribe', require('./routes/subscribe'));
 
 
 

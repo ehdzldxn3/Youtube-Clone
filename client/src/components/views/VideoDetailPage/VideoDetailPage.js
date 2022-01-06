@@ -1,7 +1,7 @@
 import React, { useEffect, useState, } from 'react'
 import { withRouter, } from 'react-router-dom'
 import SideVideo from './Sections/SideVideo';
-import Subcribe from './Sections/Subcribe';
+import Subscribe from './Sections/Subscribe';
 import { List, Avatar, Row, Col } from 'antd';
 import axios from 'axios';
 import video from 'ffmpeg/lib/video';
@@ -38,7 +38,7 @@ function VideoDetailPage(props) {
                          </div>
     
                         <List.Item
-                            actions={[<Subcribe userTo={videoDetail.writer._id}/>]}
+                            actions={[<Subscribe userTo={videoDetail.writer._id} userFrom={localStorage.getItem('userId')}/>]}
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={videoDetail.writer && videoDetail.writer.image} />}
