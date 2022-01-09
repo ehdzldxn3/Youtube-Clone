@@ -14,6 +14,7 @@ function Subcribe(props) {
         axios.post('/api/subscribe/subscribeNumber', variable)
             .then(res => {
                 if (res.data.success) {
+                    
                     setSubscribeNumber(res.data.subscribeNumber)
                 } else {
                     alert('구독자수를 받아오지 못함')
@@ -23,16 +24,16 @@ function Subcribe(props) {
 
         let subscribeVariable = { userTo: props.userTo, userFrom: localStorage.getItem('userId')}
         
-        axios.post('/api/subcribe/subcribed', subscribeVariable)
+        axios.post('/api/subscribe/subcribed', subscribeVariable)
             .then(res => {
-                if (res.data.success) {
-                    console.log(res.data.subscribed)
+                if (res.data.success) {    
                     setSubscribed(res.data.subscribed)     
                 } else {
                     console.log('구독정보를 가져오지 못함')
                 }
                 
             }) 
+            
     }, [])
 
     const onSubscribe = () => {
@@ -43,20 +44,22 @@ function Subcribe(props) {
         }
 
         
-        if(Subcribe) {  //구독중이라면
-            axios.post('/api/subscribe/unSubcribe', subcribeVariable)
+        if(subscribed) {  //구독중이라면
+            axios.post('/api/subscribe/unSubscribe', subcribeVariable)
                 .then(res => {
                     if(res.data.success) {
-
+                        setSubscribeNumber(subscribeNumber-1)
+                        setSubscribed(!subscribed)
                     } else {
                         console.log('구독 취소를 실패 했습니다.')
                     }
                 })
-        } else {    //구독중일경우
-            axios.post('/api/subscribe/subcribe', subcribeVariable)
+        } else {    //구독중이 아니라면
+            axios.post('/api/subscribe/subscribe', subcribeVariable)
             .then(res => {
                 if(res.data.success) {
-
+                    setSubscribeNumber(subscribeNumber+1)
+                    setSubscribed(!subscribed)
                 } else {
                     console.log('구독 취소를 실패 했습니다.')
                 }
