@@ -33,6 +33,7 @@ function App() {
             {/* 비디오 디테일 */}
             <Route path='/video/:videoId' component={Auth(VideoDetailPage, null)} />
 
+
           </Switch>
         </div>
     </Router>
